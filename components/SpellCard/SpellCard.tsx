@@ -2,26 +2,32 @@ import Image from 'next/image';
 import { map } from 'lodash';
 
 import {
+  SpellCastingTime,
   SpellClasses,
+  SpellDescription,
   SpellLevel,
   SpellName,
   SpellSchool
 } from '@/types/spellTypes';
 import { PlayableClassImage } from '@/types/classTypes';
 
-interface SpellCardOptions {
+interface SpellCardProps {
   spellName: SpellName;
   spellSchool: SpellSchool;
   spellLevel: SpellLevel;
   spellClasses: SpellClasses;
+  spellDescription: SpellDescription;
+  spellCastingTime: SpellCastingTime;
 }
 
 function SpellCard({
   spellClasses,
   spellName,
   spellSchool,
-  spellLevel
-}: SpellCardOptions) {
+  spellLevel,
+  spellDescription,
+  spellCastingTime
+}: SpellCardProps) {
   return (
     <div className="p-4 flex flex-col shadow-md rounded-lg gap-y-4 cursor-pointer hover:shadow-xl transition-shadow">
       <div className="flex space-x-4 items-center">
@@ -34,11 +40,13 @@ function SpellCard({
         </div>
       </div>
       <h1 className="line-clamp-3 text-gray-500 text-left flex-grow">
-        Spell Text
+        {spellDescription[0]}
       </h1>
       <div className="flex items-center justify-between gap-x-2 w-full self-end">
         <div className="bg-gray-100 rounded-full max-w-[60%]">
-          <h1 className="px-3 my-2 text-xs font-light line-clamp-1">Action</h1>
+          <h1 className="px-3 my-2 text-xs font-light line-clamp-1">
+            {spellCastingTime}
+          </h1>
         </div>
         <div className="flex gap-x-2 justify-end">
           {map(spellClasses, (spellClass) => (

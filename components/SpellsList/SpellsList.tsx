@@ -31,9 +31,11 @@ function SpellsList({ spellLevel }: SpellsListProps) {
         {map(spellsData, (spell) => (
           <SpellCard
             spellName={spell.name}
+            spellDescription={spell.desc}
             spellClasses={spell.classes}
             spellSchool={spell.school}
             spellLevel={spell.level}
+            spellCastingTime={spell.casting_time}
           />
         ))}
       </div>

@@ -3,6 +3,7 @@ export type SpellName = string;
 export type SpellLevel = number;
 export type SpellMaterial = string;
 export type SpellRitual = boolean;
+export type SpellDescription = string[];
 
 export type SpellSchool = {
   index: string;

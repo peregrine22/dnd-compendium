@@ -4,6 +4,7 @@ import {
   SpellClasses,
   SpellComponents,
   SpellConcentration,
+  SpellDescription,
   SpellIndex,
   SpellLevel,
   SpellName,
@@ -15,6 +16,7 @@ export interface SpellsQueryResponse {
   index: SpellIndex;
   level: SpellLevel;
   name: SpellName;
+  desc: SpellDescription;
   school: SpellSchool;
   casting_time: SpellCastingTime;
   concentration: SpellConcentration;
@@ -28,6 +30,7 @@ export const FETCH_SPELLS = gql`
       index
       level
       name
+      desc
       material
       ritual
       school {
