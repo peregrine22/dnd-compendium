@@ -1,4 +1,4 @@
-import { FetchItemsFilters, FetchItemsLimit, FetchItemsSort } from '@/types';
+import { FetchItemsFilters, FetchItemsLimit, FetchItemsOrder } from '@/types';
 import { useInfiniteIndexQuery } from '../useInfiniteIndexQuery';
 import { InfiniteIndexQueryBaseNodeType } from '../useInfiniteIndexQuery/useInfiniteIndexQuery.types';
 
@@ -6,7 +6,7 @@ interface SpellsOptions {
   cacheKey?: string;
   query: string;
   initialFilters?: FetchItemsFilters;
-  initialSort?: FetchItemsSort;
+  initialOrder?: FetchItemsOrder;
   initialLimit?: FetchItemsLimit;
   options?: {
     cacheTime?: number;
@@ -22,21 +22,21 @@ function useSpells<SpellType extends InfiniteIndexQueryBaseNodeType>({
   query,
   initialFilters,
   initialLimit,
-  initialSort,
+  initialOrder = null,
   options = {}
 }: SpellsOptions) {
-  const { data } = useInfiniteIndexQuery<SpellType>({
+  const { items } = useInfiniteIndexQuery<SpellType>({
     cacheKey,
     query,
     initialFilters,
     initialLimit,
-    initialSort,
+    initialOrder,
     options,
     scope
   });
 
   return {
-    spellsData: data
+    spellsData: items
   };
 }
 

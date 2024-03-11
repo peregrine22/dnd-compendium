@@ -1,14 +1,68 @@
+import { PlayableClassName } from '@/types/classTypes';
+import {
+  SpellCastingTime,
+  SpellClasses,
+  SpellComponents,
+  SpellConcentration,
+  SpellIndex,
+  SpellLevel,
+  SpellName,
+  SpellSchool
+} from '@/types/spellTypes';
 import { gql } from 'graphql-request';
 
+export interface SpellsQueryResponse {
+  index: SpellIndex;
+  level: SpellLevel;
+  name: SpellName;
+  school: SpellSchool;
+  casting_time: SpellCastingTime;
+  concentration: SpellConcentration;
+  classes: SpellClasses;
+  components: SpellComponents;
+}
+
 export const FETCH_SPELLS = gql`
-  query Query($limit: Int!) {
-    spells(limit: $limit) {
+  query Spells($limit: Int!, $order: SpellOrder, $level: IntFilter) {
+    spells(limit: $limit, order: $order, level: $level) {
       index
       level
       name
+      material
+      ritual
       school {
+        desc
+        index
         name
       }
+      area_of_effect {
+        size
+        type
+      }
+      casting_time
+      classes {
+        name
+      }
+      damage {
+        damage_at_character_level {
+          damage
+          level
+        }
+        damage_at_slot_level {
+          damage
+          level
+        }
+        damage_type {
+          desc
+          name
+          index
+        }
+      }
+      concentration
+      components
+      duration
+      higher_level
+      range
     }
   }
 `;

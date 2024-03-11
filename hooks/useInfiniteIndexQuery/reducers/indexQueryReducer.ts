@@ -1,6 +1,6 @@
 import omit from 'lodash/omit';
 
-import { FetchItemsFilters, FetchItemsLimit, FetchItemsSort } from '@/types';
+import { FetchItemsFilters, FetchItemsLimit, FetchItemsOrder } from '@/types';
 import {
   CHANGE_ITEMS_FILTERS,
   CLEAR_ITEMS_FILTERS,
@@ -15,13 +15,13 @@ import {
 export interface IndexRequestState {
   currentFilters: FetchItemsFilters;
   currentLimit: FetchItemsLimit;
-  currentSort: FetchItemsSort;
+  currentOrder: {};
 }
 
 export const indexRequestInitialState = {
   currentFilters: INITIAL_FILTERS,
   currentLimit: INITIAL_LIMIT,
-  currentSort: INITIAL_SORT
+  currentOrder: {}
 };
 
 export type IndexRequestAction =
@@ -34,7 +34,7 @@ export type IndexRequestAction =
       type: 'FILTER_ITEMS';
       nextFilters: FetchItemsFilters;
     }
-  | { type: 'SORT_ITEMS'; nextSort: FetchItemsSort }
+  | { type: 'SORT_ITEMS'; nextOrder: FetchItemsOrder }
   | { type: 'LIMIT_ITEMS'; nextLimit: FetchItemsLimit }
   | { type: 'CLEAR_ITEMS_FILTERS' };
 
@@ -74,7 +74,7 @@ export function indexRequestReducer(
     case SORT_ITEMS:
       return {
         ...state,
-        currentSort: action.nextSort
+        currentOrder: action.nextOrder
       };
     default:
       return state;

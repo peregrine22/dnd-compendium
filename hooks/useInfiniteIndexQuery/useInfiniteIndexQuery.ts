@@ -1,33 +1,40 @@
+import { useInfiniteQuery } from 'react-query';
+import { useCallback, useMemo, useReducer } from 'react';
+import { ClientError } from 'graphql-request';
+import size from 'lodash/size';
+import isEqual from 'lodash/isEqual';
+import last from 'lodash/last';
+import localforage from 'localforage';
+
 import {
   FetchItemCacheKey,
   FetchItemGqlQuery,
   FetchItemsFilters,
   FetchItemsGqlQuery,
   FetchItemsLimit,
-  FetchItemsSort
+  FetchItemsOrder
 } from '@/types';
-import { ClientError } from 'graphql-request';
 import {
   InfiniteIndexQueryBaseNodeType,
   InfiniteIndexQueryData,
   InfiniteIndexQueryDefaultOptionsOpts,
   InfiniteIndexQueryResponse
 } from './useInfiniteIndexQuery.types';
+
+import sortItemsAction from '@/actions/sortItems/sortItems';
+import filterItemsAction from '@/actions/filterItems/filterItems';
+
+import { IndexRequestReducerType, indexRequestReducer } from './reducers';
+import { fetchItems } from '@/actions/fetchItems/fetchItems';
+import { changeItemsFiltersAction } from '@/actions/changeItemsFiltersAction';
+import { clearItemsFiltersAction } from '@/actions/clearItemsFiltersAction';
+
 import {
   INITIAL_FILTERS,
   INITIAL_LIMIT,
-  INITIAL_PAGE,
-  INITIAL_SORT
+  INITIAL_ORDER,
+  INITIAL_PAGE
 } from './useInfiniteIndexQueryConstants';
-import { useCallback, useMemo, useReducer } from 'react';
-import { IndexRequestReducerType, indexRequestReducer } from './reducers';
-import { useInfiniteQuery, useQueryClient } from 'react-query';
-import localforage from 'localforage';
-import { fetchItems } from '@/actions/fetchItems/fetchItems';
-import { flatten, isEqual, last, size } from 'lodash';
-import filterItemsAction from '@/actions/filterItems/filterItems';
-import { changeItemsFiltersAction } from '@/actions/changeItemsFiltersAction';
-import { clearItemsFiltersAction } from '@/actions/clearItemsFiltersAction';
 
 type InfiniteIndexErrorType = Error | ClientError;
 
@@ -46,7 +53,7 @@ interface InfiniteIndexQueryOptions<NodeType> {
   query: FetchItemsGqlQuery;
   scope: string;
   initialFilters?: FetchItemsFilters;
-  initialSort?: FetchItemsSort;
+  initialOrder?: FetchItemsOrder;
   initialLimit?: FetchItemsLimit;
   options?: InfiniteIndexQueryDefaultOptionsOpts<NodeType>;
 }
@@ -58,7 +65,7 @@ function useInfiniteIndexQuery<
   scope,
   query,
   initialFilters = INITIAL_FILTERS,
-  initialSort = INITIAL_SORT,
+  initialOrder = INITIAL_ORDER,
   initialLimit = INITIAL_LIMIT,
   options = {},
   fetchItemCacheKey,
@@ -70,11 +77,11 @@ function useInfiniteIndexQuery<
   )) {
   const localForageCacheKey = `${cacheKey}-infinite-index`;
 
-  const [{ currentFilters, currentLimit, currentSort }, dispatch] =
+  const [{ currentFilters, currentLimit, currentOrder }, dispatch] =
     useReducer<IndexRequestReducerType>(indexRequestReducer, {
       currentLimit: initialLimit,
       currentFilters: initialFilters,
-      currentSort: initialSort
+      currentOrder: initialOrder
     });
 
   const { data: placeholderData, isFetched: placeholderDataFetched } =
@@ -89,17 +96,17 @@ function useInfiniteIndexQuery<
       }
     );
 
-  const currentParams = useMemo(() => {
+  const currentParameters = useMemo(() => {
     return {
       filters: currentFilters,
-      sort: currentSort,
+      order: currentOrder,
       limit: currentLimit
     };
-  }, [currentFilters, currentSort, currentLimit]);
+  }, [currentFilters, currentOrder, currentLimit]);
 
   const fullCacheKey = useMemo(() => {
-    return [cacheKey, currentParams];
-  }, [cacheKey, currentParams]);
+    return [cacheKey, currentParameters];
+  }, [cacheKey, currentParameters]);
 
   const {
     data,
@@ -120,9 +127,9 @@ function useInfiniteIndexQuery<
         fetchItems({
           query,
           page: pageParam,
-          ...currentParams
+          ...currentParameters
         }),
-      [currentParams, query]
+      [currentParameters, query]
     ),
     {
       enabled: options.enabled || placeholderDataFetched,
@@ -135,7 +142,7 @@ function useInfiniteIndexQuery<
             data?.pages[0] &&
             size(data?.pages) === 1 &&
             isEqual(currentFilters, initialFilters) &&
-            isEqual(currentSort, initialSort) &&
+            isEqual(currentOrder, initialOrder) &&
             currentLimit === initialLimit
           ) {
             return localforage.setItem<InfiniteIndexQueryResponse<NodeType>>(
@@ -146,10 +153,10 @@ function useInfiniteIndexQuery<
         },
         [
           currentFilters,
-          currentSort,
+          currentOrder,
           currentLimit,
           initialFilters,
-          initialSort,
+          initialOrder,
           initialLimit,
           localForageCacheKey,
           options
@@ -159,17 +166,17 @@ function useInfiniteIndexQuery<
         if (
           placeholderData?.pages?.[0] &&
           isEqual(currentFilters, initialFilters) &&
-          isEqual(currentSort, initialSort) &&
+          isEqual(currentOrder, initialOrder) &&
           currentLimit === initialLimit
         ) {
           return placeholderData as InfiniteIndexQueryData<NodeType>;
         }
       }, [
         currentFilters,
-        currentSort,
+        currentOrder,
         currentLimit,
         initialFilters,
-        initialSort,
+        initialOrder,
         initialLimit,
         placeholderData
       ]),
@@ -188,15 +195,13 @@ function useInfiniteIndexQuery<
   const placeholderResponseValue = placeholderData?.pages?.[0]?.[scope];
 
   const items = useMemo<NodeType[]>(() => {
-    const pagesNodes = data?.pages?.map((page) => page?.[scope]?.nodes);
-    return pagesNodes ? flatten(pagesNodes) : [];
+    const pagesNodes = data?.pages?.[0]?.[scope];
+    return pagesNodes ? pagesNodes : [];
   }, [data, scope]);
 
   const isLoadingTotalCount = isLoading
     ? placeholderResponseValue?.paginationInfo?.totalCount
     : null;
-
-  const queryClient = useQueryClient();
 
   return {
     data,
@@ -211,7 +216,7 @@ function useInfiniteIndexQuery<
     isFetchingNextPage,
     isPlaceholderData,
     currentFilters,
-    currentSort,
+    currentOrder,
     currentPage: lastQueryResponseValue?.paginationInfo?.currentPage,
     currentLimit,
     hasNextPage,
@@ -231,15 +236,11 @@ function useInfiniteIndexQuery<
     clearItemsFilters: useCallback(
       () => dispatch(clearItemsFiltersAction()),
       [dispatch]
+    ),
+    sortItems: useCallback(
+      (nextOrder: FetchItemsOrder) => dispatch(sortItemsAction(nextOrder)),
+      [dispatch]
     )
-    // sortItems: useCallback(
-    //   (nextSort: FetchItemsSort) => dispatch(sortItemsAction(nextSort)),
-    //   [dispatch]
-    // ),
-    // limitItems: useCallback(
-    //   (nextLimit: FetchItemsLimit) => dispatch(limitItemsAction(nextLimit)),
-    //   [dispatch]
-    // )
   };
 }
 

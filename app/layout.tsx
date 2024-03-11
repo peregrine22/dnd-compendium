@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
-import { Rubik } from 'next/font/google';
+import { K2D } from 'next/font/google';
 import './globals.css';
 
 import { QueryProvider } from '@/providers/QueryProvider';
 
-const font = Rubik({ subsets: ['latin'], weight: '400' });
+const font = K2D({ subsets: ['latin'], weight: '400' });
 
 export const metadata: Metadata = {
   title: 'Spells',

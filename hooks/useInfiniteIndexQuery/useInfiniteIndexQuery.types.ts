@@ -1,14 +1,7 @@
 import { InfiniteData } from 'react-query';
 
 export interface InfiniteIndexQueryResponse<NodeType> {
-  [key: string]: {
-    nodes: NodeType[];
-    paginationInfo: {
-      currentPage: number;
-      nextPage: number;
-      totalCount: number;
-    };
-  };
+  nodes: NodeType[];
 }
 
 export type InfiniteIndexQueryData<NodeType> = InfiniteData<
@@ -16,11 +9,11 @@ export type InfiniteIndexQueryData<NodeType> = InfiniteData<
 >;
 
 export interface InfiniteIndexQueryBaseNodeType {
-  uuid: string;
+  index: string;
 }
 
 export interface UpdateItemCacheSelector {
-  uuid: string;
+  index: string;
 }
 
 interface UpdateItemCacheOptions<T> {

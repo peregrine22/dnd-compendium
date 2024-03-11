@@ -13,7 +13,7 @@ import { request } from 'graphql-request';
 interface FetchItemsProps {
   query: FetchItemsGqlQuery;
   filters: FetchItemsFilters;
-  sort: FetchItemsSort;
+  order: {};
   page: FetchItemsPage;
   limit: FetchItemsLimit;
 }
@@ -21,7 +21,7 @@ interface FetchItemsProps {
 export function fetchItems({
   query,
   filters,
-  sort,
+  order,
   page,
   limit
 }: FetchItemsProps): Promise<any> {
@@ -33,10 +33,8 @@ export function fetchItems({
     `${GRAPHQL_API_URI}?queryName=${name}&requestId=${requestId}`,
     query,
     {
-      filters,
-      sort,
-      limit,
-      offset: (page - 1) * limit
+      order,
+      limit
     },
     { requestId }
   );
