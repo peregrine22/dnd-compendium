@@ -29,7 +29,7 @@ function SpellCard({
   spellCastingTime
 }: SpellCardProps) {
   return (
-    <div className="p-4 flex flex-col shadow-md rounded-lg gap-y-4 cursor-pointer hover:shadow-xl transition-shadow">
+    <div className="p-4 shadow-md rounded-lg cursor-pointer hover:shadow-xl transition-shadow min-w-72 min-h-96">
       <div className="flex space-x-4 items-center">
         <div className="border-4 border-indigo-900 rounded-full w-12 h-12 flex justify-center items-center">
           <h1 className="text-center">{spellLevel}</h1>
@@ -39,7 +39,7 @@ function SpellCard({
           <h1 className="text-xl text-zinc-900">{spellName}</h1>
         </div>
       </div>
-      <h1 className="line-clamp-3 text-gray-500 text-left flex-grow">
+      <h1 className="py-2 line-clamp-3 text-gray-500 text-left ">
         {spellDescription[0]}
       </h1>
       <div className="flex items-center justify-between gap-x-2 w-full self-end">

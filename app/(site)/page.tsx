@@ -7,16 +7,18 @@ export default function Home() {
       <hr className="my-5 h-0.5 border-t-4 border-zinc-600 opacity-100 dark:opacity-50 dark:bg-indigo-700" />
       <div className="items-center space-y-4">
         <p className="text-2xl">Spells</p>
-        <div className="">
+        <div>
           <input
-            className="bg-zinc-100 rounded-md px-2 placeholder:text-zinc-300 py-2 focus:outline-none"
+            className="bg-zinc-100 rounded-md px-2 border border-zinc-200 placeholder:text-zinc-400 py-2 focus:outline-none"
             placeholder="Spell name"
           />
         </div>
       </div>
-      <div className="py-8">
-        <SpellsList spellLevel={0} />
-      </div>
+      <SpellsList spellLevel={0} />
+      <SpellsList spellLevel={1} />
+      <SpellsList spellLevel={2} />
+      <SpellsList spellLevel={3} />
+      <SpellsList spellLevel={4} />
     </main>
   );
 }

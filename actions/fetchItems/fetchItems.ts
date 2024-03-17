@@ -34,7 +34,8 @@ export function fetchItems({
     query,
     {
       order,
-      limit
+      limit,
+      ...filters
     },
     { requestId }
   );
