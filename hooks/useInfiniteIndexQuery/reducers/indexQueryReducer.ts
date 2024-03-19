@@ -7,7 +7,7 @@ import {
   FILTER_ITEMS,
   INITIAL_FILTERS,
   INITIAL_LIMIT,
-  INITIAL_SORT,
+  INITIAL_ORDER,
   LIMIT_ITEMS,
   SORT_ITEMS
 } from '../useInfiniteIndexQueryConstants';
@@ -15,13 +15,13 @@ import {
 export interface IndexRequestState {
   currentFilters: FetchItemsFilters;
   currentLimit: FetchItemsLimit;
-  currentOrder: {};
+  currentOrder: FetchItemsOrder;
 }
 
 export const indexRequestInitialState = {
   currentFilters: INITIAL_FILTERS,
   currentLimit: INITIAL_LIMIT,
-  currentOrder: {}
+  currentOrder: INITIAL_ORDER
 };
 
 export type IndexRequestAction =

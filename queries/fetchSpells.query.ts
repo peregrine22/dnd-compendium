@@ -1,4 +1,3 @@
-import { PlayableClassName } from '@/types/classTypes';
 import {
   SpellCastingTime,
   SpellClasses,

@@ -8,9 +8,12 @@ const TooltipContent = forwardRef<
   React.HTMLProps<HTMLDivElement>
 >(function TooltipContent({ style, ...props }, propRef) {
   const context = useTooltipContext();
+
   const ref = useMergeRefs([context.refs.setFloating, propRef]);
 
-  if (!context.open) return null;
+  if (!context.open) {
+    return null;
+  }
 
   return (
     <FloatingPortal>

@@ -1,15 +1,17 @@
 'use client';
 
+import { ChangeEvent, useCallback, useState } from 'react';
 import map from 'lodash/map';
 
 import { SpellsList } from '@/components/SpellsList';
 import { spellLevels } from '@/components/SpellsList/SpellsConstants';
-import { useCallback, useState } from 'react';
 
 export default function Spells() {
   const [spellName, setSpellName] = useState('');
 
-  const handleOnChange = useCallback(
+  const handleOnChange = useCallback<
+    (e: ChangeEvent<HTMLInputElement>) => void
+  >(
     (event) => {
       setSpellName(event.target.value);
     },
