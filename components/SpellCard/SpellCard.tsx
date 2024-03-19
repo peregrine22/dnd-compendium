@@ -78,34 +78,33 @@ function SpellCard({
       </div>
 
       <div className="pt-4 flex justify-end">
-        <div>
-          <div className="flex items-center justify-start bg-indigo-900 rounded-full">
-            <div className="text-white px-3 md:px-4 my-2 text-xs md:text-base font-light line-clamp-1">
-              <span>Casting time: {spellCastingTime}</span>
-            </div>
+        <div className="flex items-center justify-start bg-indigo-900 rounded-full">
+          <div className="text-white px-3 md:px-4 my-2 text-xs md:text-base font-light line-clamp-1">
+            <span>Casting time: {spellCastingTime}</span>
           </div>
-
-          <div className="flex gap-x-2 items-center justify-end pt-2">
-            {map(spellClasses, (spellClass) => (
-              <FloatingDelayGroup delay={300}>
-                <Tooltip placement="bottom">
-                  <TooltipTrigger asChild>
-                    <Image
-                      key={spellClass.name}
-                      className="w-8 h-8 md:h-12 md:w-12 rounded-full"
-                      src={PlayableClassImage[spellClass.name]}
-                      width="120"
-                      height="120"
-                      alt={spellClass.name}
-                    />
-                    <TooltipContent className="bg-indigo-900 rounded-full px-4 text-white">
-                      {spellClass.name}
-                    </TooltipContent>
-                  </TooltipTrigger>
-                </Tooltip>
-              </FloatingDelayGroup>
-            ))}
-          </div>
+        </div>
+      </div>
+      <div className="flex justify-end">
+        <div className="flex gap-x-2 items-center justify-end">
+          {map(spellClasses, (spellClass) => (
+            <FloatingDelayGroup delay={300}>
+              <Tooltip placement="bottom">
+                <TooltipTrigger asChild>
+                  <Image
+                    key={spellClass.name}
+                    className="w-8 h-8 md:h-12 md:w-12 rounded-full"
+                    src={PlayableClassImage[spellClass.name]}
+                    width="120"
+                    height="120"
+                    alt={spellClass.name}
+                  />
+                  <TooltipContent className="bg-indigo-900 rounded-full px-4 text-white">
+                    {spellClass.name}
+                  </TooltipContent>
+                </TooltipTrigger>
+              </Tooltip>
+            </FloatingDelayGroup>
+          ))}
         </div>
       </div>
     </div>
