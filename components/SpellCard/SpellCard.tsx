@@ -11,6 +11,9 @@ import {
   SpellSchool
 } from '@/types/spellTypes';
 import { PlayableClassImage } from '@/types/classTypes';
+import Tooltip from '../helpers/Tooltip/Tooltip';
+import { TooltipTrigger } from '../helpers/Tooltip/components/TooltipTrigger';
+import { TooltipContent } from '../helpers/Tooltip/components/TooltipContent';
 
 interface SpellCardProps {
   spellName: SpellName;
@@ -25,14 +28,14 @@ interface SpellCardProps {
 const colorVariants = {
   zinc: 'bg-zinc-50 border-zinc-400',
   amber: 'bg-amber-50 border-amber-400',
-  orange: 'bg-orange-50 border-orange-400',
+  orange: 'bg-orange-50 border-orange-300',
   lime: 'bg-lime-50 border-lime-400',
   green: 'bg-green-50 border-green-400',
   teal: 'bg-teal-50 border-teal-400',
   blue: 'bg-blue-50 border-blue-400',
   violet: 'bg-violet-50 border-violet-400',
   fuchsia: 'bg-fuchsia-50 border-fuchsia-400',
-  red: 'bg-red-50 border-red-400'
+  red: 'bg-red-50 border-red-500'
 };
 
 function SpellCard({
@@ -47,7 +50,7 @@ function SpellCard({
   return (
     <div
       className={cl(
-        ' border-4 p-4 rounded-lg cursor-pointer w-[200px] h-[250px] md:w-[300px] md:h-[400px] shrink-0 hover:shadow-xl transition-transform ease-in-out hover:origin-center hover:-rotate-3 duration-300',
+        ' border-4 p-4 rounded-xl cursor-pointer w-[200px] h-[250px] md:w-[300px] md:h-[400px] shrink-0 hover:shadow-xl transition-transform ease-in-out hover:origin-center hover:-rotate-3 duration-300',
         `${colorVariants[color]}`
       )}
     >
@@ -72,14 +75,19 @@ function SpellCard({
       </div>
       <div className="flex gap-x-2 justify-start">
         {map(spellClasses, (spellClass) => (
-          <Image
-            key={spellClass.name}
-            className="h-12 w-12 rounded-full"
-            src={PlayableClassImage[spellClass.name]}
-            width="120"
-            height="120"
-            alt="class"
-          />
+          <Tooltip placement="bottom">
+            <TooltipTrigger asChild>
+              <Image
+                key={spellClass.name}
+                className="h-12 w-12 rounded-full"
+                src={PlayableClassImage[spellClass.name]}
+                width="120"
+                height="120"
+                alt="class"
+              />
+              <TooltipContent className='bg-indigo-900 rounded-full px-4 text-white'>{spellClass.name}</TooltipContent>
+            </TooltipTrigger>
+          </Tooltip>
         ))}
       </div>
     </div>

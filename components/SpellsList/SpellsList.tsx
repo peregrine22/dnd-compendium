@@ -4,14 +4,12 @@ import map from 'lodash/map';
 import isEmpty from 'lodash/isEmpty';
 
 import { SpellLevel } from '@/types/spellTypes';
-import { FetchItemsFilters } from '@/types';
 
 import { FETCH_SPELLS, SpellsQueryResponse } from '@/queries/fetchSpells.query';
 
 import { useSpells } from '@/hooks/useSpells';
 
 import { SpellCard } from '../SpellCard';
-import { useEffect } from 'react';
 
 interface SpellsListProps {
   spellLevel: SpellLevel;
@@ -38,7 +36,7 @@ function SpellsList({ spellLevel, color }: SpellsListProps) {
   return (
     <div className="py-4">
       <h2 className="text-xl font-semibold">
-        {spellLevel === 0 ? 'Cantrips (0 level)' : `${spellLevel} Level`}
+        {spellLevel === 0 ? 'Cantrips' : `${spellLevel} Level`}
       </h2>
       <div className="flex overflow-auto w-full gap-3 py-8 no-scrollbar">
         {map(spells, (spell) => (
