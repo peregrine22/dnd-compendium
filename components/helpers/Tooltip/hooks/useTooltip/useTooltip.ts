@@ -4,6 +4,7 @@ import {
   flip,
   offset,
   shift,
+  useDelayGroupContext,
   useDismiss,
   useFloating,
   useFocus,
@@ -11,7 +12,7 @@ import {
   useInteractions,
   useRole
 } from '@floating-ui/react';
-import { createContext, useContext, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 export interface TooltipOptions {
   initialOpen?: boolean;
@@ -30,6 +31,8 @@ function useTooltip({
 
   const open = controlledOpen ?? uncontrolledOpen;
   const setOpen = setControlledOpen ?? setUncontrolledOpen;
+
+  const { delay } = useDelayGroupContext();
 
   const data = useFloating({
     placement,
@@ -51,7 +54,8 @@ function useTooltip({
 
   const hover = useHover(context, {
     move: false,
-    enabled: controlledOpen == null
+    enabled: controlledOpen == null,
+    delay
   });
 
   const focus = useFocus(context, {
