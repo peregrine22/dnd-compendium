@@ -25,8 +25,13 @@ export interface SpellsQueryResponse {
 }
 
 export const FETCH_SPELLS = gql`
-  query Spells($limit: Int!, $order: SpellOrder, $level: IntFilter) {
-    spells(limit: $limit, order: $order, level: $level) {
+  query Spells(
+    $limit: Int!
+    $order: SpellOrder
+    $level: IntFilter
+    $name: String
+  ) {
+    spells(limit: $limit, order: $order, level: $level, name: $name) {
       index
       level
       name

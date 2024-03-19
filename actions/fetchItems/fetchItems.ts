@@ -1,14 +1,15 @@
-import { GRAPHQL_API_URI } from '@/app/config';
+import { request } from 'graphql-request';
 import {
   FetchItemsFilters,
   FetchItemsGqlQuery,
   FetchItemsLimit,
-  FetchItemsPage,
-  FetchItemsSort
+  FetchItemsPage
 } from '@/types';
+
 import generateUuid from '@/utils/generateUuid';
 import getQueryName from '@/utils/getQueryName';
-import { request } from 'graphql-request';
+
+import { GRAPHQL_API_URI } from '@/app/config';
 
 interface FetchItemsProps {
   query: FetchItemsGqlQuery;

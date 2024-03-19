@@ -3,36 +3,46 @@
 import map from 'lodash/map';
 import isEmpty from 'lodash/isEmpty';
 
-import { SpellLevel } from '@/types/spellTypes';
+import { SpellLevel, SpellName } from '@/types/spellTypes';
 
 import { FETCH_SPELLS, SpellsQueryResponse } from '@/queries/fetchSpells.query';
 
 import { useSpells } from '@/hooks/useSpells';
 
 import { SpellCard } from '../SpellCard';
+import { usePreviousValue } from '@/utils/usePreviousValue';
+import { useEffect } from 'react';
+import { isEqual } from 'lodash';
 
 interface SpellsListProps {
   spellLevel: SpellLevel;
   color: string;
+  name?: SpellName;
 }
 
-function SpellsList({ spellLevel, color }: SpellsListProps) {
-  const initialFilters = {
-    level: spellLevel
-  };
-
+function SpellsList({ spellLevel, color, name }: SpellsListProps) {
+  console.log('name', name);
   const { spells, filterSpells, spellsFilters } =
     useSpells<SpellsQueryResponse>({
       cacheKey: 'spells',
       query: FETCH_SPELLS,
       initialLimit: 24,
-      initialFilters,
+      initialFilters: { level: spellLevel },
       initialOrder: { by: 'NAME', direction: 'ASCENDING' }
     });
+
+  const previousName = usePreviousValue(name);
+
+  useEffect(() => {
+    if (!isEqual(name, previousName)) {
+      filterSpells({ ...spellsFilters, name });
+    }
+  }, [name, previousName]);
 
   if (isEmpty(spells)) {
     return;
   }
+
   return (
     <div className="py-4">
       <h2 className="text-xl font-semibold">
