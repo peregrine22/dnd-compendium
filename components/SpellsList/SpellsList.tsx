@@ -2,17 +2,17 @@
 
 import map from 'lodash/map';
 import isEmpty from 'lodash/isEmpty';
-
-import { SpellLevel, SpellName } from '@/types/spellTypes';
+import isEqual from 'lodash/isEqual';
+import { useEffect } from 'react';
+import { usePreviousValue } from '@/utils/hooks/usePreviousValue';
+import { useDraggableScroll } from '@/utils/hooks/useDraggableScroll';
+import { useSpells } from '@/hooks/useSpells';
 
 import { FETCH_SPELLS, SpellsQueryResponse } from '@/queries/fetchSpells.query';
 
-import { useSpells } from '@/hooks/useSpells';
+import { SpellLevel, SpellName } from '@/types/spellTypes';
 
 import { SpellCard } from '../SpellCard';
-import { usePreviousValue } from '@/utils/usePreviousValue';
-import { useEffect } from 'react';
-import { isEqual } from 'lodash';
 
 interface SpellsListProps {
   spellLevel: SpellLevel;
@@ -21,7 +21,6 @@ interface SpellsListProps {
 }
 
 function SpellsList({ spellLevel, color, name }: SpellsListProps) {
-  console.log('name', name);
   const { spells, filterSpells, spellsFilters } =
     useSpells<SpellsQueryResponse>({
       cacheKey: 'spells',
@@ -39,6 +38,8 @@ function SpellsList({ spellLevel, color, name }: SpellsListProps) {
     }
   }, [name, previousName]);
 
+  const [ref] = useDraggableScroll();
+
   if (isEmpty(spells)) {
     return;
   }
@@ -48,7 +49,10 @@ function SpellsList({ spellLevel, color, name }: SpellsListProps) {
       <h2 className="text-xl font-semibold">
         {spellLevel === 0 ? 'Cantrips' : `${spellLevel} Level`}
       </h2>
-      <div className="flex overflow-auto w-full gap-3 py-8 no-scrollbar">
+      <div
+        className="flex overflow-auto w-full gap-3 py-8 no-scrollbar"
+        ref={ref}
+      >
         {map(spells, (spell) => (
           <SpellCard
             key={spell.index}
