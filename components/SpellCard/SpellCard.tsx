@@ -17,6 +17,7 @@ import { Tooltip } from '../helpers/Tooltip';
 
 import { TooltipTrigger } from '../helpers/Tooltip/components/TooltipTrigger';
 import { TooltipContent } from '../helpers/Tooltip/components/TooltipContent';
+import React from 'react';
 
 interface SpellCardProps {
   spellName: SpellName;
@@ -41,15 +42,18 @@ const colorVariants = {
   red: 'bg-red-50 border-red-500'
 };
 
-function SpellCard({
-  spellClasses,
-  spellName,
-  spellSchool,
-  spellLevel,
-  spellDescription,
-  spellCastingTime,
-  color = 'zinc'
-}: SpellCardProps) {
+const SpellCard = React.forwardRef(function SpellCard(
+  {
+    spellClasses,
+    spellName,
+    spellSchool,
+    spellLevel,
+    spellDescription,
+    spellCastingTime,
+    color = 'zinc'
+  }: SpellCardProps,
+  propRef
+) {
   return (
     <div
       className={cl(
@@ -87,11 +91,10 @@ function SpellCard({
       <div className="flex justify-end">
         <div className="flex gap-x-2 items-center justify-end">
           {map(spellClasses, (spellClass) => (
-            <FloatingDelayGroup delay={300}>
+            <FloatingDelayGroup delay={300} key={spellClass.name}>
               <Tooltip placement="bottom">
                 <TooltipTrigger asChild>
                   <Image
-                    key={spellClass.name}
                     className="w-8 h-8 md:h-12 md:w-12 rounded-full"
                     src={PlayableClassImage[spellClass.name]}
                     width="120"
@@ -109,6 +112,6 @@ function SpellCard({
       </div>
     </div>
   );
-}
+});
 
 export default SpellCard;
