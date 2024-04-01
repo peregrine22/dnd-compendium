@@ -10,12 +10,14 @@ import {
 export interface DialogOptions {
   initialOpen?: boolean;
   open?: boolean;
+  enabled?: boolean;
   onOpenChange?: (open: boolean) => void;
 }
 
 export function useDialog({
   initialOpen = false,
   open: controlledOpen,
+  enabled,
   onOpenChange: setControlledOpen
 }: DialogOptions) {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(initialOpen);
@@ -33,7 +35,7 @@ export function useDialog({
   const context = data.context;
 
   const click = useClick(context, {
-    enabled: controlledOpen == null
+    enabled: enabled
   });
   const dismiss = useDismiss(context, { outsidePressEvent: 'mousedown' });
   const role = useRole(context);

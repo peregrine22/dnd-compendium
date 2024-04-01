@@ -1,25 +1,32 @@
+import { gql } from 'graphql-request';
+
 import {
   SpellCastingTime,
   SpellClasses,
   SpellComponents,
   SpellConcentration,
   SpellDescription,
+  SpellDescriptionHigherLevels,
+  SpellDuration,
   SpellIndex,
   SpellLevel,
   SpellName,
+  SpellRange,
   SpellSchool
 } from '@/types/spellTypes';
-import { gql } from 'graphql-request';
 
 export interface SpellsQueryResponse {
   index: SpellIndex;
   level: SpellLevel;
   name: SpellName;
   desc: SpellDescription;
+  higher_level: SpellDescriptionHigherLevels;
   school: SpellSchool;
   casting_time: SpellCastingTime;
   concentration: SpellConcentration;
   classes: SpellClasses;
+  duration: SpellDuration;
+  range: SpellRange;
   components: SpellComponents;
 }
 
@@ -35,6 +42,7 @@ export const FETCH_SPELLS = gql`
       level
       name
       desc
+      higher_level
       material
       ritual
       school {

@@ -4,6 +4,7 @@ export type SpellLevel = number;
 export type SpellMaterial = string;
 export type SpellRitual = boolean;
 export type SpellDescription = string[];
+export type SpellDescriptionHigherLevels = SpellDescription;
 
 export type SpellSchool = {
   index: string;
@@ -24,3 +25,4 @@ export type SpellClasses = {
 export type SpellConcentration = boolean;
 export type SpellComponents = string[];
 export type SpellDuration = string;
+export type SpellRange = string;

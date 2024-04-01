@@ -1,15 +1,18 @@
-import { ButtonHTMLAttributes, forwardRef } from 'react';
+import { ButtonHTMLAttributes, forwardRef, useCallback } from 'react';
 
 import { useDialogContext } from '../../hooks/useDialogContext';
 
 export const DialogClose = forwardRef<
-  HTMLButtonElement,
-  ButtonHTMLAttributes<HTMLButtonElement>
+  HTMLDivElement,
+  ButtonHTMLAttributes<HTMLDivElement>
 >(function DialogClose(props, ref) {
   const { setOpen } = useDialogContext();
-  return (
-    <button type="button" {...props} ref={ref} onClick={() => setOpen(false)} />
-  );
+
+  const handleClose = useCallback<() => void>(() => {
+    setOpen(false);
+  }, [setOpen]);
+
+  return <div {...props} ref={ref} onClick={handleClose} />;
 });
 
 export default DialogClose;

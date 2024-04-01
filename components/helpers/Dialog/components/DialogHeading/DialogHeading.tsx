@@ -17,9 +17,9 @@ export const DialogHeading = forwardRef<
   }, [id, setLabelId]);
 
   return (
-    <h2 {...props} ref={ref} id={id}>
+    <div {...props} ref={ref} id={id}>
       {children}
-    </h2>
+    </div>
   );
 });
 

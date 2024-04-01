@@ -2,9 +2,10 @@ import { useCallback, useEffect, useState } from 'react';
 
 const useDraggableScroll = () => {
   const [node, setNode] = useState<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
 
-  const ref = useCallback((nodeEle) => {
-    setNode(nodeEle);
+  const ref = useCallback((node: HTMLDivElement) => {
+    setNode(node);
   }, []);
 
   const handleMouseDown = useCallback<(e: MouseEvent) => void>(
@@ -14,6 +15,7 @@ const useDraggableScroll = () => {
       if (!node) {
         return;
       }
+
       const startPos = {
         left: node.scrollLeft,
         top: node.scrollTop,
@@ -26,11 +28,15 @@ const useDraggableScroll = () => {
         const dy = e.clientY - startPos.y;
         node.scrollTop = startPos.top - dy;
         node.scrollLeft = startPos.left - dx;
+        setIsDragging(true);
       };
 
       const handleMouseUp = () => {
         document.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('mouseup', handleMouseUp);
+        setTimeout(() => {
+          setIsDragging(false);
+        }, 100);
       };
 
       document.addEventListener('mousemove', handleMouseMove);
@@ -51,7 +57,7 @@ const useDraggableScroll = () => {
     };
   }, [node]);
 
-  return [ref];
+  return { ref, isDragging };
 };
 
 export default useDraggableScroll;

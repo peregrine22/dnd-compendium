@@ -4,7 +4,7 @@ import './globals.css';
 
 import { QueryProvider } from '@/providers/QueryProvider';
 
-const font = Londrina_Solid({ subsets: ['latin'], weight: '400' });
+const font = Londrina_Solid({ subsets: ['latin'], weight: '300' });
 
 export const metadata: Metadata = {
   title: 'Crit Happens',

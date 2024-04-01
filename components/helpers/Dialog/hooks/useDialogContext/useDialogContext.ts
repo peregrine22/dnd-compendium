@@ -13,6 +13,7 @@ export const DialogContext = createContext<ContextType>(null);
 
 function useDialogContext() {
   const context = useContext(DialogContext);
+
   if (context == null) {
     throw new Error('Dialog components must be wrapped in <Dialog />');
   }

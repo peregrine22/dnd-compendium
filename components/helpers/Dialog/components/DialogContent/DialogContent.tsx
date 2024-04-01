@@ -1,10 +1,10 @@
+import { HTMLProps, forwardRef } from 'react';
 import {
   FloatingFocusManager,
   FloatingOverlay,
   FloatingPortal,
   useMergeRefs
 } from '@floating-ui/react';
-import { HTMLProps, forwardRef } from 'react';
 
 import { useDialogContext } from '../../hooks/useDialogContext';
 
@@ -26,7 +26,7 @@ export const DialogContent = forwardRef<
         className="bg-zinc-900/80 grid place-items-center"
         lockScroll
       >
-        <FloatingFocusManager context={floatingContext}>
+        <FloatingFocusManager context={floatingContext} disabled>
           <div
             ref={ref}
             aria-labelledby={context.labelId}
