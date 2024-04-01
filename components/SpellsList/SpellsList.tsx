@@ -8,7 +8,7 @@ import { usePreviousValue } from '@/utils/hooks/usePreviousValue';
 import { useDraggableScroll } from '@/utils/hooks/useDraggableScroll';
 import { useSpells } from '@/hooks/useSpells';
 
-import { SpellLevel, SpellName } from '@/types/spellTypes';
+import { SpellClass, SpellLevel, SpellName } from '@/types/spellTypes';
 
 import { FETCH_SPELLS, SpellsQueryResponse } from '@/queries/fetchSpells.query';
 
@@ -25,9 +25,10 @@ interface SpellsListProps {
   spellLevel: SpellLevel;
   color: string;
   name?: SpellName;
+  spellClass?: SpellClass;
 }
 
-function SpellsList({ spellLevel, color, name }: SpellsListProps) {
+function SpellsList({ spellLevel, color, name, spellClass }: SpellsListProps) {
   const { spells, filterSpells, spellsFilters } =
     useSpells<SpellsQueryResponse>({
       cacheKey: 'spells',
@@ -40,12 +41,20 @@ function SpellsList({ spellLevel, color, name }: SpellsListProps) {
   const { ref, isDragging } = useDraggableScroll();
 
   const previousName = usePreviousValue(name);
+  const previousClass = usePreviousValue(spellClass);
 
   useEffect(() => {
     if (!isEqual(name, previousName)) {
       filterSpells({ ...spellsFilters, name });
     }
-  }, [name, previousName]);
+
+    if (!isEqual(spellClass, previousClass)) {
+      filterSpells({
+        ...spellsFilters,
+        class: spellClass == '' ? null : spellClass
+      });
+    }
+  }, [name, previousName, spellClass, previousClass]);
 
   if (isEmpty(spells)) {
     return;

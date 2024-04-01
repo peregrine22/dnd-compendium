@@ -36,8 +36,15 @@ export const FETCH_SPELLS = gql`
     $order: SpellOrder
     $level: IntFilter
     $name: String
+    $class: StringFilter
   ) {
-    spells(limit: $limit, order: $order, level: $level, name: $name) {
+    spells(
+      limit: $limit
+      order: $order
+      level: $level
+      name: $name
+      class: $class
+    ) {
       index
       level
       name

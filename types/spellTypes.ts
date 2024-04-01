@@ -18,6 +18,7 @@ export type SpellAoE = {
 };
 
 export type SpellCastingTime = number;
+export type SpellClass = string;
 export type SpellClasses = {
   name: string;
 }[];
