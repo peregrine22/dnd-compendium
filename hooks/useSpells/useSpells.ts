@@ -25,7 +25,7 @@ function useSpells<SpellType extends InfiniteIndexQueryBaseNodeType>({
   initialOrder = null,
   options = {}
 }: SpellsOptions) {
-  const { data, items, filterItems, currentFilters } =
+  const { data, items, filterItems, currentFilters, isLoading, isFetched } =
     useInfiniteIndexQuery<SpellType>({
       cacheKey,
       query,
@@ -40,7 +40,9 @@ function useSpells<SpellType extends InfiniteIndexQueryBaseNodeType>({
     spellsData: data,
     spells: items,
     filterSpells: filterItems,
-    spellsFilters: currentFilters
+    spellsFilters: currentFilters,
+    spellsLoading: isLoading,
+    spellsFetched: isFetched
   };
 }
 

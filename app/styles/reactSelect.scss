@@ -6,3 +6,12 @@
 .dnd__control--is-focused {
   @apply border-transparent bg-zinc-50 ring-4 ring-indigo-900 ring-offset-0 outline-none #{!important};
 }
+
+.dnd_error__option--is-focused,
+.dnd__option--is-focused {
+  @apply text-white bg-indigo-900 #{!important};
+}
+
+.dnd__option--is-selected {
+  @apply text-white bg-indigo-400 #{!important};
+}

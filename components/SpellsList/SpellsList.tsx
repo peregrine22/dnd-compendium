@@ -29,7 +29,7 @@ interface SpellsListProps {
 }
 
 function SpellsList({ spellLevel, color, name, spellClass }: SpellsListProps) {
-  const { spells, filterSpells, spellsFilters } =
+  const { spells, filterSpells, spellsFilters, spellsLoading, spellsFetched } =
     useSpells<SpellsQueryResponse>({
       cacheKey: 'spells',
       query: FETCH_SPELLS,
@@ -56,8 +56,12 @@ function SpellsList({ spellLevel, color, name, spellClass }: SpellsListProps) {
     }
   }, [name, previousName, spellClass, previousClass]);
 
-  if (isEmpty(spells)) {
-    return;
+  if (isEmpty(spells) && !spellsFetched) {
+    return <div className="">Loading...</div>;
+  }
+
+  if (isEmpty(spells) && spellsFetched) {
+    return <div className="">No results...</div>;
   }
 
   return (
