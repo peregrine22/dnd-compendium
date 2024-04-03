@@ -1,0 +1,8 @@
+.dnd__control {
+  @apply border bg-zinc-100 leading-none text-sm sm:text-base cursor-pointer w-full bg-transparent rounded-md #{!important};
+}
+
+.dnd_error__control--is-focused,
+.dnd__control--is-focused {
+  @apply border-transparent bg-zinc-50 ring-4 ring-indigo-900 ring-offset-0 outline-none #{!important};
+}

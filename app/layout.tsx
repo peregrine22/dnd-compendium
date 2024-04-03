@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Londrina_Solid } from 'next/font/google';
-import './globals.css';
+import './globals.scss';
 
 import { QueryProvider } from '@/providers/QueryProvider';
 
