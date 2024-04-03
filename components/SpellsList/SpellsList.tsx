@@ -89,7 +89,7 @@ function SpellsList({ spellLevel, color, name, spellClass }: SpellsListProps) {
                 />
               </div>
             </DialogTrigger>
-            <DialogContent className="z-10 flex flex-col bg-white dark:bg-zinc-850 border dark:border-zinc-800 border-transparent rounded-3xl sm:rounded-3xl shadow-xl h-96 sm:h-[550px] w-full sm:max-w-md opacity-100">
+            <DialogContent className="z-10 flex flex-col bg-white dark:bg-zinc-850 border dark:border-zinc-800 border-transparent rounded-2xl shadow-xl h-96 sm:h-[550px] w-full sm:max-w-md opacity-100">
               <DialogHeading className="flex-shrink p-2">
                 <div className="flex border-2 rounded-xl border-indigo-900 dark:border-zinc-700 py-4">
                   <div className="text-base sm:text-2xl pl-8 text-center flex-1 truncate">
