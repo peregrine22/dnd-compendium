@@ -98,7 +98,7 @@ function SpellsList({ spellLevel, color, name, spellClass }: SpellsListProps) {
                 </div>
               </DialogHeading>
               <DialogDescription className="flex-1 overflow-y-auto px-2 text-base sm:text-xl cursor-default">
-                <div className="mt-4 text-sm sm:text-base pl-8 text-center flex-1 border-2 rounded-xl p-2 border-indigo-900 dark:border-zinc-700">
+                <div className="mt-4 text-sm sm:text-base text-center items-center flex-1 border-2 rounded-xl p-2 border-indigo-900 dark:border-zinc-700">
                   <div className="flex justify-center space-x-3">
                     <div className="font-semibold">Lv. {spell.level}</div>
                     <div className="font-semibold">{spell.school.name}</div>
@@ -108,15 +108,15 @@ function SpellsList({ spellLevel, color, name, spellClass }: SpellsListProps) {
                     </div>
                   </div>
                   <div>
-                    <span className="font-semibold">Cast time:</span>
+                    <span className="font-semibold pr-1">Cast time:</span>
                     {spell.casting_time}
                   </div>
                   <div>
-                    <span className="font-semibold">Duration:</span>
+                    <span className="font-semibold pr-1">Duration:</span>
                     {spell.duration}
                   </div>
                   <div>
-                    <span className="font-semibold">Components:</span>
+                    <span className="font-semibold pr-1">Components:</span>
                     {spell.components}
                   </div>
                 </div>
