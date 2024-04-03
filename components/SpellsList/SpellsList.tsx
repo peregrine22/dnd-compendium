@@ -1,16 +1,18 @@
 'use client';
 
+import { useEffect } from 'react';
 import map from 'lodash/map';
 import isEmpty from 'lodash/isEmpty';
 import isEqual from 'lodash/isEqual';
-import { useEffect } from 'react';
-import { usePreviousValue } from '@/utils/hooks/usePreviousValue';
-import { useDraggableScroll } from '@/utils/hooks/useDraggableScroll';
-import { useSpells } from '@/hooks/useSpells';
+import cl from 'classnames';
 
 import { SpellClass, SpellLevel, SpellName } from '@/types/spellTypes';
 
 import { FETCH_SPELLS, SpellsQueryResponse } from '@/queries/fetchSpells.query';
+
+import { usePreviousValue } from '@/utils/hooks/usePreviousValue';
+import { useDraggableScroll } from '@/utils/hooks/useDraggableScroll';
+import { useSpells } from '@/hooks/useSpells';
 
 import { SpellCard } from '../SpellCard';
 
@@ -20,6 +22,7 @@ import { DialogContent } from '../helpers/Dialog/components/DialogContent';
 import { DialogHeading } from '../helpers/Dialog/components/DialogHeading';
 import { DialogDescription } from '../helpers/Dialog/components/DialogDescription';
 import { DialogClose } from '../helpers/Dialog/components/DialogClose';
+import { colorVariants } from './SpellsConstants';
 
 interface SpellsListProps {
   spellLevel: SpellLevel;
@@ -89,16 +92,21 @@ function SpellsList({ spellLevel, color, name, spellClass }: SpellsListProps) {
                 />
               </div>
             </DialogTrigger>
-            <DialogContent className="z-10 flex flex-col bg-white dark:bg-zinc-850 border dark:border-zinc-800 border-transparent rounded-2xl shadow-xl h-96 sm:h-[550px] w-full sm:max-w-md opacity-100">
+            <DialogContent
+              className={cl(
+                'z-10 flex flex-col border-4 rounded-2xl shadow-xl h-96 sm:h-[550px] w-full sm:max-w-md opacity-100',
+                `${colorVariants[color]}`
+              )}
+            >
               <DialogHeading className="flex-shrink p-2">
-                <div className="flex border-2 rounded-xl border-indigo-900 dark:border-zinc-700 py-4">
+                <div className="flex border-2 rounded-xl border-indigo-900  py-4">
                   <div className="text-base sm:text-2xl pl-8 text-center flex-1 truncate">
                     {spell.name}
                   </div>
                 </div>
               </DialogHeading>
               <DialogDescription className="flex-1 overflow-y-auto px-2 text-base sm:text-xl cursor-default">
-                <div className="mt-4 text-sm sm:text-base text-center items-center flex-1 border-2 rounded-xl p-2 border-indigo-900 dark:border-zinc-700">
+                <div className="mt-4 text-sm sm:text-base text-center items-center flex-1 border-2 rounded-xl p-2 border-indigo-900">
                   <div className="flex justify-center space-x-3">
                     <div className="font-semibold">Lv. {spell.level}</div>
                     <div className="font-semibold">{spell.school.name}</div>
@@ -120,7 +128,7 @@ function SpellsList({ spellLevel, color, name, spellClass }: SpellsListProps) {
                     {spell.components}
                   </div>
                 </div>
-                <div className="my-2 border-2 border-indigo-900 dark:border-zinc-700 rounded-xl px-8">
+                <div className="my-2 border-2 border-indigo-900 rounded-xl px-8">
                   <div className="space-y-6 mt-2">{spell.desc}</div>
                   {spell.higher_level ? (
                     <div className="my-2">
